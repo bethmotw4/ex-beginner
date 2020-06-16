@@ -8,7 +8,8 @@
 <body>
 	<form action="exam05-result.html" th:action="@{/exam05/result}" method="post">
 		<label for="name" th:for="name">名前:</label>
-		<input id="name">
+		<input id="name" th:id="name" name="name"><br>
+		<button>検索</button>
 	</form>
 </body>
 </html>

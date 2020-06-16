@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,19 +20,17 @@ public class Exam04Controller {
 	}
 	
 	@RequestMapping("")
-	public String index(Model model) {
+	public String index() {
 		return "exam04";
 	}
 	
 	@RequestMapping("/result")
 	public String result(@Validated UserForm userForm, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return index(model);
+			return index();
 		}
 		User user = new User();
-		user.setName(userForm.getName());
-		user.setAge(userForm.getAge());
-		user.setComment(userForm.getComment());
+		BeanUtils.copyProperties(userForm, user);
 		model.addAttribute("user", user);
 		return "exam04-result";
 	}

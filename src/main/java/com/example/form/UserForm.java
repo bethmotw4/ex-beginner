@@ -7,7 +7,8 @@ public class UserForm {
 	@NotBlank(message = "名前を入力してください")
 	private String name;
 	@NotBlank(message = "年齢を入力してください")
-	@Pattern(regexp = "^[0-9]*$", message = "数字を入力してください")
+//	@Pattern(regexp = "^[0-9]*$", message = "数字を入力してください")
+	@Pattern(regexp = "^\\d*$", message = "数字を入力してください")
 	private String age;
 	@NotBlank(message = "コメントを入力してください")
 	private String comment;
