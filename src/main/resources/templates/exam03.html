@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link href=".css" rel="stylesheet">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="exam03-result.html" th:action="@{/exam03/result}" 
+		th:object="${exam03Form}" method="post">
+		<label for="item1" th:for="item1">商品1:</label>
+		<input id="item1" th:id="item1" name="item1" th:field="*{item1}"><br>
+		<label for="item2" th:for="item2">商品2:</label>
+		<input id="item2" th:id="item2" name="item2" th:field="*{item2}"><br>
+		<label for="item3" th:for="item3">商品3:</label>
+		<input id="item3" th:id="item3" name="item3" th:field="*{item3}"><br>
+		<button>購入</button>
+	</form>
+</body>
+</html>
