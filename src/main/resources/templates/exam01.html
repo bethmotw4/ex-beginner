@@ -6,10 +6,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="exam01-result.html" th:action="@{/exam01/result}" 
-		th:object="${exam1Form}" method="post">
+	<form action="exam01-result.html" th:action="@{/exam01/result}" method="post">
 		<label for="name" th:for="name">名前:</label>
-		<input id="name" th:id="name" name="name" th:field="*{name}"><br>
+		<input id="name" th:id="name" name="name"><br>
 		<button>送信</button>
 	</form>
 	
