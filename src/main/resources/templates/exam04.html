@@ -11,10 +11,10 @@
 		th:object="${userForm}" method="post">
 		<div th:errors="*{name}" style="color: red">nameエラー</div>
 		<label for="name" th:for="name">名前:</label>
-		<input id="name" th:id="name" name="name" th:field="*{name}"><br>
+		<input id="name" th:id="name" type="text" name="name" th:field="*{name}"><br>
 		<div th:errors="*{age}" style="color: red">ageエラー</div>
 		<label for="age" th:for="age">年齢:</label>
-		<input id="age" th:id="age" name="age" th:field="*{age}"><br>
+		<input id="age" th:id="age" type="text" name="age" th:field="*{age}"><br>
 		<div th:errors="*{comment}" style="color: red">commentエラー</div>
 		<label for="comment" th:for="comment">コメント:</label><br>
 		<textarea id="comment" th:id="comment" name="comment" th:field="*{comment}" rows="3" cols="30"></textarea><br>
