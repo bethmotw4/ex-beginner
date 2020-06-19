@@ -17,55 +17,85 @@ import com.example.domain.Item;
 @RequestMapping("/shopping")
 public class ShoppingCartController {
 	@Autowired
-	private HttpSession session;
-	
-	@Autowired
 	private ServletContext application;
-	
+
+	@Autowired
+	private HttpSession session;
+
+
+	/**
+	 * Top逕ｻ髱｢縺ｫ繝輔か繝ｯ繝ｼ繝峨☆繧句�ｦ逅�繧定｡後＞縺ｾ縺�.
+	 * 蝠�蜩∽ｸ�隕ｧ縺ｮ蝠�蜩∬｡ｨ遉ｺ縲√す繝ｧ繝�繝斐Φ繧ｰ繧ｫ繝ｼ繝亥��縺ｮ蝠�蜩∵侭驥代�ｮ蜷郁ｨ医ｒ豎ゅａ繧句�ｦ逅�繧定｡後▲縺ｦ縺�縺ｾ縺�.
+	 * 
+	 * @param model 繝ｪ繧ｯ繧ｨ繧ｹ繝医せ繧ｳ繝ｼ繝�
+	 * @return Top逕ｻ髱｢
+	 */
 	@RequestMapping("")
 	public String index(Model model) {
-//		applicationスコープに商品一覧を格納
-		List<Item> itemList = (List<Item>)application.getAttribute("itemList");
-		if (itemList == null) {
-			itemList = new LinkedList<Item>();
-			itemList.add(new Item("手帳ノート", 1000));
-			itemList.add(new Item("文房具セット", 1500));
-			itemList.add(new Item("ファイル", 2000));
-		}
-		itemList.forEach(e -> System.out.println(e));
+		List<Item> itemList = new LinkedList<>();
+
+		Item item1 = new Item();
+		item1.setName("手帳ノート");
+		item1.setPrice(1000);
+		itemList.add(item1);
+
+		Item item2 = new Item();
+		item2.setName("文房具セット");
+		item2.setPrice(1500);
+		itemList.add(item2);
+
+		Item item3 = new Item();
+		item3.setName("ファイル");
+		item3.setPrice(2000);
+		itemList.add(item3);
+
 		application.setAttribute("itemList", itemList);
-//		sessionスコープ内の合計金額をrequestスコープに格納
-		List<Item> cartList = (List<Item>)session.getAttribute("cartList");
-		int sum = 0;
-		if (cartList == null) {
-			session.setAttribute("cartList", new LinkedList<>());
+
+		@SuppressWarnings("unchecked")
+		List<Item> cartItemList = (List<Item>) session.getAttribute("cartItemList");
+
+		int totalPrice = 0;
+		if (cartItemList == null) {
+			session.setAttribute("cartItemList", new LinkedList<>());
 		} else {
-			for (Item item : cartList) {
-				sum += item.getPrice();
-			}
+			totalPrice = calcTotalPrice(cartItemList);
 		}
-		model.addAttribute("sum", sum);
-		
+		model.addAttribute("totalPrice", totalPrice);
+
 		return "item-and-cart";
 	}
-	
-	@RequestMapping("/inCart")
+
+	@RequestMapping("incart")
 	public String inCart(String index, Model model) {
-//		applicationスコープから商品一覧を取得
-		List<Item> itemList = (List<Item>)application.getAttribute("itemList");
-//		sessionスコープからカート内の一覧を取得
-		List<Item> cartList = (List<Item>)session.getAttribute("cartList");
-//		新たにカートに追加してsessionスコープへ格納
-		cartList.add(itemList.get(Integer.parseInt(index)));
-		session.setAttribute("cartList", cartList);
+
+		@SuppressWarnings("unchecked")
+		List<Item> itemList = (List<Item>) application.getAttribute("itemList");
+		Item item = itemList.get(Integer.parseInt(index));
+
+		@SuppressWarnings("unchecked")
+		List<Item> cartItemList = (List<Item>) session.getAttribute("cartItemList");
+		cartItemList.add(item);
+
 		return index(model);
 	}
-	
-	@RequestMapping("/deleteCart")
-	public String deleteCart(String index, Model model) {
-		List<Item> cartList = (List<Item>)session.getAttribute("cartList");
-		cartList.remove(Integer.parseInt(index));
-		session.setAttribute("cartList", cartList);
+
+	@RequestMapping("delete")
+	public String delete(String index, Model model) {
+		@SuppressWarnings("unchecked")
+		List<Item> cartItemList = (List<Item>) session.getAttribute("cartItemList");
+		cartItemList.remove(Integer.parseInt(index));
+
 		return index(model);
 	}
+
+	private Integer calcTotalPrice(List<Item> itemList) {
+		Integer totalPrice = 0;
+
+		for (Item item : itemList) {
+			totalPrice += item.getPrice();
+		}
+
+		return totalPrice;
+	}
+
 }
